@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{916E5950-20C3-436D-8646-50FE5B6160BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging", "src\Logging\Logging.csproj", "{FBE93E75-A8FC-4FCD-900E-09401871A5FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7D89BDB2-893D-4515-8DB7-AA31DF8C2F4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging.Tests", "test\Logging.Tests\Logging.Tests.csproj", "{B3B2AA1C-F878-4767-BF41-ED551D9F7609}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBE93E75-A8FC-4FCD-900E-09401871A5FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE93E75-A8FC-4FCD-900E-09401871A5FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE93E75-A8FC-4FCD-900E-09401871A5FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE93E75-A8FC-4FCD-900E-09401871A5FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B2AA1C-F878-4767-BF41-ED551D9F7609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B2AA1C-F878-4767-BF41-ED551D9F7609}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B2AA1C-F878-4767-BF41-ED551D9F7609}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B2AA1C-F878-4767-BF41-ED551D9F7609}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FBE93E75-A8FC-4FCD-900E-09401871A5FF} = {916E5950-20C3-436D-8646-50FE5B6160BF}
+		{B3B2AA1C-F878-4767-BF41-ED551D9F7609} = {7D89BDB2-893D-4515-8DB7-AA31DF8C2F4B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FAC0B77-11E7-42F6-9C36-98BABF51A875}
+	EndGlobalSection
+EndGlobal
