@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>PetProjects.Framework.Logging.Consumer</AssemblyName>
+    <RootNamespace>PetProjects.Framework.Logging.Consumer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Logging.Contracts\Logging.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

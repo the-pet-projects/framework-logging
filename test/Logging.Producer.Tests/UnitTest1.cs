@@ -1,5 +1,6 @@
-namespace PetProjects.Framework.Logging.Tests
+namespace PetProjects.Framework.Logging.Producer.Tests
 {
+    using Microsoft.Extensions.Logging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -8,6 +9,7 @@ namespace PetProjects.Framework.Logging.Tests
         [TestMethod]
         public void TestMethod1()
         {
+            new MessagingLoggingProvider().CreateLogger("asd").LogCritical("asd", "asd");
         }
     }
 }
