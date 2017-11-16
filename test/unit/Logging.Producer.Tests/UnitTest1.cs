@@ -1,4 +1,4 @@
-namespace PetProjects.Framework.Logging.Tests
+namespace PetProjects.Framework.Logging.Producer.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

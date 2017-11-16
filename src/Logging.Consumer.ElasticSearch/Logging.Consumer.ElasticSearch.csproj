@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>PetProjects.Framework.Logging.Consumer.ElasticSearch</AssemblyName>
+    <RootNamespace>PetProjects.Framework.Logging.Consumer.ElasticSearch</RootNamespace>
+  </PropertyGroup>
+
+</Project>
