@@ -1,6 +1,5 @@
 ﻿namespace PetProjects.Framework.Logging.Producer
 {
-    using System;
     using Serilog;
     using Serilog.Configuration;
 
