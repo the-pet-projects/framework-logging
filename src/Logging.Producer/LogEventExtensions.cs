@@ -1,12 +1,28 @@
 ﻿namespace PetProjects.Framework.Logging.Producer
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using PetProjects.Framework.Logging.Contracts;
     using Serilog.Events;
 
     public static class LogEventExtensions
     {
+        private static IDictionary<LogEventLevel, LogLevel> mappingsDictionary;
+
+        static LogEventExtensions()
+        {
+            LogEventExtensions.mappingsDictionary = new Dictionary<LogEventLevel, LogLevel>
+            {
+                { LogEventLevel.Fatal, LogLevel.Fatal },
+                { LogEventLevel.Error, LogLevel.Error },
+                { LogEventLevel.Warning, LogLevel.Warning },
+                { LogEventLevel.Information, LogLevel.Information },
+                { LogEventLevel.Verbose, LogLevel.Verbose },
+                { LogEventLevel.Debug, LogLevel.Debug }
+            };
+        }
+
         public static LogEventV1 BuildLogEventV1(this LogEvent @this)
         {
             return new LogEventV1
@@ -22,29 +38,12 @@
 
         private static LogLevel MapToLogLevel(this LogEventLevel @this)
         {
-            switch (@this)
+            if (LogEventExtensions.mappingsDictionary.TryGetValue(@this, out var value))
             {
-                case LogEventLevel.Fatal:
-                    return LogLevel.Fatal;
-
-                case LogEventLevel.Error:
-                    return LogLevel.Error;
-
-                case LogEventLevel.Warning:
-                    return LogLevel.Warning;
-
-                case LogEventLevel.Information:
-                    return LogLevel.Information;
-
-                case LogEventLevel.Verbose:
-                    return LogLevel.Verbose;
-
-                case LogEventLevel.Debug:
-                    return LogLevel.Debug;
-
-                default:
-                    throw new ArgumentException("LogEventLevel not supported");
+                return value;
             }
+
+            throw new ArgumentException("LogEventLevel not supported");
         }
     }
 }
