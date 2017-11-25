@@ -24,7 +24,7 @@
                 logList.Add(new { index = new { _index = this.storeConfig.AppLogsIndex, _type = log.Type } });
                 var doc = new
                 {
-                    Timestamp = log.Timestamp.ToString("u"),
+                    Timestamp = log.Timestamp.ToString("o"),
                     LogLevel = log.Level.ToString(),
                     MessageTemplate = log.MessageTemplate,
                     RenderedMessage = log.RenderedMessage,

@@ -14,7 +14,24 @@
 
             if (indexExists.HttpStatusCode == null || indexExists.HttpStatusCode.Value == 404)
             {
-                var response = await client.IndicesCreateAsync<string>(config.AppLogsIndex, new object[] { }).ConfigureAwait(false);
+                var postData = new
+                {
+                    mappings = new
+                    {
+                        _default_ = new
+                        {
+                            properties = new
+                            {
+                                Timestamp = new
+                                {
+                                    type = "date"
+                                }
+                            }
+                        }
+                    }
+                };
+
+                var response = await client.IndicesCreateAsync<string>(config.AppLogsIndex, postData).ConfigureAwait(false);
 
                 if (!response.Success)
                 {

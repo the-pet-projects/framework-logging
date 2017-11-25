@@ -52,7 +52,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
             var secondObject = objects[1];
             Assert.AreEqual("appLogIndex", GetInstanceProperty<string>(GetInstanceProperty<object>(firstObject, "index"), "_index"));
             Assert.AreEqual("typ123", GetInstanceProperty<string>(GetInstanceProperty<object>(firstObject, "index"), "_type"));
-            Assert.AreEqual(dt.ToString("u"), GetInstanceProperty<string>(secondObject, "Timestamp"));
+            Assert.AreEqual(dt.ToString("o"), GetInstanceProperty<string>(secondObject, "Timestamp"));
             Assert.AreEqual("Error", GetInstanceProperty<string>(secondObject, "LogLevel"));
             Assert.AreEqual("123", GetInstanceProperty<string>(secondObject, "BatchId"));
         }
