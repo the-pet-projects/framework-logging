@@ -19,7 +19,7 @@
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            this.logger.LogCritical("testcritical @asd", DateTime.UtcNow);
+            this.logger.LogCritical("testcritical {asd}", DateTime.UtcNow);
             return new string[] { "value1", "value2" };
         }
 
@@ -27,7 +27,7 @@
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            this.logger.LogError("testerror @asd @ex", DateTime.UtcNow, new Exception("asdadsdasdas"));
+            this.logger.LogError("testerror {asd} {ex}", DateTime.UtcNow, new Exception("asdadsdasdas"));
             return "value";
         }
 
@@ -35,21 +35,21 @@
         [HttpPost]
         public void Post([FromBody]string value)
         {
-            this.logger.LogInformation("testinfo @asd @ex", DateTime.UtcNow, new Exception("213123"));
+            this.logger.LogInformation("testinfo {asd} {ex}", DateTime.UtcNow, new Exception("213123"));
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
-            this.logger.LogDebug("testdebug @asd @ex", DateTime.UtcNow, new Exception("213123"));
+            this.logger.LogDebug("testdebug {asd} {ex}", DateTime.UtcNow, new Exception("213123"));
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            this.logger.LogTrace("testtrace@asd @ex", DateTime.UtcNow, new Exception("213123"));
+            this.logger.LogTrace("testtrace{asd} {ex}", DateTime.UtcNow, new Exception("213123"));
         }
     }
 }
