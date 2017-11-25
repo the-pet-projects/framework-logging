@@ -23,10 +23,12 @@
             };
         }
 
-        public static LogEventV1 BuildLogEventV1(this LogEvent @this)
+        public static LogEventV1 BuildLogEventV1(this LogEvent @this, string type, string batchId)
         {
             return new LogEventV1
             {
+                BatchId = batchId,
+                Type = type,
                 Exception = @this.Exception,
                 Level = @this.Level.MapToLogLevel(),
                 MessageTemplate = @this.MessageTemplate.Text,

@@ -24,5 +24,11 @@
 
         /// <summary>An exception associated with the event, or null.</summary>
         public Exception Exception { get; set; }
+
+        /// <summary>Type property associated with this log. This will most likely be an identifier of the log producer.</summary>
+        public string Type { get; set; }
+
+        /// <summary>Log Event batch id.</summary>
+        public string BatchId { get; set; }
     }
 }
