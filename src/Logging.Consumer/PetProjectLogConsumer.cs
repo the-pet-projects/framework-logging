@@ -51,6 +51,7 @@
 
                         using (var consumer = new Consumer<Null, List<LogEventV1>>(config, null, new JsonDeserializer<List<LogEventV1>>()))
                         {
+                            consumer.Subscribe(this.kafkaConfig.Topic);
                             consumer.OnMessage += this.HandleMessage;
                             while (this.tokenSource != null && !this.tokenSource.IsCancellationRequested)
                             {
