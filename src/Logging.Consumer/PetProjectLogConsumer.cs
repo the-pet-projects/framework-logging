@@ -52,7 +52,7 @@
                         using (var consumer = new Consumer<Null, List<LogEventV1>>(config, null, new JsonDeserializer<List<LogEventV1>>()))
                         {
                             consumer.OnMessage += this.HandleMessage;
-                            while (this.tokenSource != null && this.tokenSource.IsCancellationRequested)
+                            while (this.tokenSource != null && !this.tokenSource.IsCancellationRequested)
                             {
                                 consumer.Poll(PetProjectLogConsumer.PollTimeout);
                             }
