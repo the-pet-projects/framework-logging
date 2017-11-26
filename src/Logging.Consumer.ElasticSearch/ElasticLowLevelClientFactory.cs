@@ -31,7 +31,7 @@
                     }
                 };
 
-                var response = await client.IndicesCreateAsync<string>(config.AppLogsIndex, postData).ConfigureAwait(false);
+                var response = await client.IndicesCreateAsync<VoidResponse>(config.AppLogsIndex, postData).ConfigureAwait(false);
 
                 if (!response.Success)
                 {

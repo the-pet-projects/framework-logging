@@ -5,9 +5,9 @@
 
     public class ElasticException : Exception
     {
-        private readonly ElasticsearchResponse<string> response;
+        private readonly ElasticsearchResponse<VoidResponse> response;
 
-        public ElasticException(ElasticsearchResponse<string> response) : base("Elastic Error")
+        public ElasticException(ElasticsearchResponse<VoidResponse> response) : base("Elastic Error")
         {
             this.response = response;
         }

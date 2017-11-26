@@ -27,8 +27,8 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
 
             this.clientMock = new Mock<IElasticLowLevelClient>();
             this.clientMock
-                .Setup(cl => cl.Bulk<string>(It.IsAny<PostData<object>>(), It.IsAny<Func<BulkRequestParameters, BulkRequestParameters>>()))
-                .Returns(new ElasticsearchResponse<string>(200, new List<int> { }))
+                .Setup(cl => cl.Bulk<VoidResponse>(It.IsAny<PostData<object>>(), It.IsAny<Func<BulkRequestParameters, BulkRequestParameters>>()))
+                .Returns(new ElasticsearchResponse<VoidResponse>(200, new List<int> { }))
                 .Callback<PostData<object>, Func<BulkRequestParameters, BulkRequestParameters>>((c1, c2) =>
                 {
                     this.callBack = c1;

@@ -35,7 +35,7 @@
                 logList.Add(doc);
             }
 
-            var indexResponse = this.client.Bulk<string>(logList.ToArray());
+            var indexResponse = this.client.Bulk<VoidResponse>(logList.ToArray());
             var success = indexResponse.Success;
 
             if (!success)
