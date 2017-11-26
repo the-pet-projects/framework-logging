@@ -7,7 +7,7 @@
     {
         private readonly ElasticsearchResponse<VoidResponse> response;
 
-        public ElasticException(ElasticsearchResponse<VoidResponse> response) : base("Elastic Error")
+        public ElasticException(ElasticsearchResponse<VoidResponse> response) : base(response.ToString() + "\n" + response.DebugInformation + "\n" + response.OriginalException.ToString(), response.OriginalException)
         {
             this.response = response;
         }
