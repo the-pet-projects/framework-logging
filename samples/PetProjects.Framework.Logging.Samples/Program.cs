@@ -28,7 +28,7 @@
                 })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
-                    logging.AddPetProjectLogging(hostingContext.Configuration.GetSection("Logging").GetValue<LogEventLevel>("LogLevel"), new PeriodicSinkConfiguration { BatchSizeLimit = 100, Period = TimeSpan.FromMilliseconds(10) }, new KafkaConfiguration { Brokers = new List<string> { "marx-petprojects.westeurope.cloudapp.azure.com:9092" }, Topic = "testlogs" }, "TestSampleApp", true);
+                    logging.AddPetProjectLogging(hostingContext.Configuration.GetSection("Logging").GetValue<LogEventLevel>("LogLevel"), new PeriodicSinkConfiguration { BatchSizeLimit = 100, Period = TimeSpan.FromMilliseconds(10) }, new KafkaConfiguration { Brokers = new List<string> { "marx-petprojects.westeurope.cloudapp.azure.com:9092" }, Topic = "applicationlogs" }, "TestSampleApp", true);
                 })
                 .UseStartup<Startup>()
                 .Build();

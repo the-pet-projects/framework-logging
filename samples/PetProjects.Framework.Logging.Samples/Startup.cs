@@ -20,7 +20,7 @@
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {/*
             services.AddPetProjectElasticLogConsumer(
                 new KafkaConfiguration
                 {
@@ -31,7 +31,7 @@
                 {
                     Address = "http://bubaloo-petproject.westeurope.cloudapp.azure.com:9200",
                     AppLogsIndex = "logs-testsampleindex"
-                });
+                });*/
 
             services.AddLogging();
             services.AddMvc();
@@ -50,7 +50,7 @@
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ApplicationServices.StartPetProjectElasticLogConsumer();
+            //app.ApplicationServices.StartPetProjectElasticLogConsumer();
 
             app.UseMvc();
 
