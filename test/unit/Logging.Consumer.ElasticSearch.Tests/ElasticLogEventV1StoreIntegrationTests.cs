@@ -17,7 +17,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
             this.config = new ElasticClientConfiguration
             {
                 AppLogsIndex = "applogintegrationtest",
-                Address = "http://bubaloo-petproject.westeurope.cloudapp.azure.com:9200"
+                Address = "http://localhost:9200"
             };
 
             this.target = new ElasticLowLevelClientFactory();
