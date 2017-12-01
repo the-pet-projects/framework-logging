@@ -5,9 +5,9 @@
 
     internal static class SerilogLoggerConfigurationExtensions
     {
-        public static LoggerConfiguration Kafka(this LoggerSinkConfiguration loggerConfiguration, PeriodicSinkConfiguration sinkConfig, KafkaConfiguration kafkaConfig)
+        public static LoggerConfiguration Kafka(this LoggerSinkConfiguration loggerConfiguration, PeriodicSinkConfiguration sinkConfig, KafkaConfiguration kafkaConfig, string type)
         {
-            var sink = new KafkaSink(sinkConfig, kafkaConfig);
+            var sink = new KafkaSink(sinkConfig, kafkaConfig, type);
             return loggerConfiguration.Sink(sink);
         }
     }

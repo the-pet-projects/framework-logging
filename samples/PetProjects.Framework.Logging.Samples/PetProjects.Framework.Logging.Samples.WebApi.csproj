@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="PetProjects.Framework.Logging.Producer" Version="0.9.1711.4-beta" />
+    <PackageReference Include="PetProjects.Framework.Logging.Consumer.ElasticSearch" Version="0.9.17329.5-beta" />
+    <PackageReference Include="PetProjects.Framework.Logging.Producer" Version="0.9.17329.2-beta" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 
