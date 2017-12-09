@@ -7,5 +7,7 @@
         public IEnumerable<string> Brokers { get; set; }
 
         public string Topic { get; set; }
+
+        public string ConsumerGroupId { get; set; }
     }
 }
