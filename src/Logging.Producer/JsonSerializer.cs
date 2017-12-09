@@ -1,5 +1,6 @@
 ﻿namespace PetProjects.Framework.Logging.Producer
 {
+    using System.Collections.Generic;
     using System.Text;
     using Confluent.Kafka.Serialization;
     using Newtonsoft.Json;
@@ -13,9 +14,14 @@
             this.stringSerializer = new StringSerializer(Encoding.UTF8);
         }
 
-        public byte[] Serialize(T data)
+        public byte[] Serialize(string topic, T data)
         {
-            return this.stringSerializer.Serialize(JsonConvert.SerializeObject(data));
+            return this.stringSerializer.Serialize(topic, JsonConvert.SerializeObject(data));
+        }
+
+        public IEnumerable<KeyValuePair<string, object>> Configure(IEnumerable<KeyValuePair<string, object>> config, bool isKey)
+        {
+            return config;
         }
     }
 }
