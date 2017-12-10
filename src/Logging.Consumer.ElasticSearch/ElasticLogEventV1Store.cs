@@ -30,7 +30,8 @@
                     RenderedMessage = log.RenderedMessage,
                     Exception = log.Exception,
                     BatchId = log.BatchId,
-                    Data = log.Properties
+                    Data = log.Properties,
+                    InstanceId = log.InstanceId
                 };
                 logList.Add(doc);
             }
