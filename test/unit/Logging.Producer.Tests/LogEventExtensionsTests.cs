@@ -35,10 +35,11 @@ namespace PetProjects.Framework.Logging.Producer.Tests
             this.log.Error("Getting item {ID} at {RequestTime}", id, dt);
 
             // Act
-            var logEventV1 = result.BuildLogEventV1("typ1", "123");
+            var logEventV1 = result.BuildLogEventV1("typ1", "123", "12345");
 
             // Assert
             Assert.IsNotNull(result);
+            Assert.AreEqual("12345", logEventV1.InstanceId);
             Assert.AreEqual("typ1", logEventV1.Type);
             Assert.AreEqual("123", logEventV1.BatchId);
             Assert.AreEqual("Getting item {ID} at {RequestTime}", logEventV1.MessageTemplate);
@@ -60,7 +61,7 @@ namespace PetProjects.Framework.Logging.Producer.Tests
             this.log.Fatal("Getting item");
 
             // Act
-            var logEventV1 = result.BuildLogEventV1("typ1", "123");
+            var logEventV1 = result.BuildLogEventV1("typ1", "123", "12345");
 
             // Assert
             Assert.IsNotNull(result);
@@ -77,7 +78,7 @@ namespace PetProjects.Framework.Logging.Producer.Tests
             this.log.Fatal(ex, "Getting item");
 
             // Act
-            var logEventV1 = result.BuildLogEventV1("typ1", "123");
+            var logEventV1 = result.BuildLogEventV1("typ1", "123", "12345");
 
             // Assert
             Assert.IsNotNull(result);

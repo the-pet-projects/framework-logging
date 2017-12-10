@@ -30,5 +30,8 @@
 
         /// <summary>Log Event batch id.</summary>
         public string BatchId { get; set; }
+
+        /// <summary>Log Producer Instance Id.</summary>
+        public string InstanceId { get; set; }
     }
 }

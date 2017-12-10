@@ -23,7 +23,7 @@
             };
         }
 
-        public static LogEventV1 BuildLogEventV1(this LogEvent @this, string type, string batchId)
+        public static LogEventV1 BuildLogEventV1(this LogEvent @this, string type, string batchId, string instanceId)
         {
             return new LogEventV1
             {
@@ -34,7 +34,8 @@
                 MessageTemplate = @this.MessageTemplate.Text,
                 Timestamp = @this.Timestamp,
                 RenderedMessage = @this.MessageTemplate.Render(@this.Properties),
-                Properties = @this.Properties.ToDictionary(kv => kv.Key, kv => kv.Value.ToString())
+                Properties = @this.Properties.ToDictionary(kv => kv.Key, kv => kv.Value.ToString()),
+                InstanceId = instanceId
             };
         }
 
