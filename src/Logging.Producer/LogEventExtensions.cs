@@ -6,9 +6,12 @@
     using PetProjects.Framework.Logging.Contracts;
     using Serilog.Events;
 
+    using NetCoreLogLevel = Microsoft.Extensions.Logging.LogLevel;
+
     public static class LogEventExtensions
     {
         private static IDictionary<LogEventLevel, LogLevel> mappingsDictionary;
+        private static IDictionary<LogEventLevel, NetCoreLogLevel> netCoreMappingsDictionary;
 
         static LogEventExtensions()
         {
@@ -20,6 +23,16 @@
                 { LogEventLevel.Information, LogLevel.Information },
                 { LogEventLevel.Verbose, LogLevel.Verbose },
                 { LogEventLevel.Debug, LogLevel.Debug }
+            };
+
+            LogEventExtensions.netCoreMappingsDictionary = new Dictionary<LogEventLevel, NetCoreLogLevel>
+            {
+                { LogEventLevel.Fatal, NetCoreLogLevel.Critical },
+                { LogEventLevel.Error, NetCoreLogLevel.Error },
+                { LogEventLevel.Warning, NetCoreLogLevel.Warning },
+                { LogEventLevel.Information, NetCoreLogLevel.Information },
+                { LogEventLevel.Verbose, NetCoreLogLevel.Trace },
+                { LogEventLevel.Debug, NetCoreLogLevel.Debug }
             };
         }
 
@@ -42,6 +55,17 @@
         private static LogLevel MapToLogLevel(this LogEventLevel @this)
         {
             if (LogEventExtensions.mappingsDictionary.TryGetValue(@this, out var value))
+            {
+                return value;
+            }
+
+            throw new ArgumentException("LogEventLevel not supported");
+        }
+
+
+        public static NetCoreLogLevel MapToNetCoreLogLevel(this LogEventLevel @this)
+        {
+            if (LogEventExtensions.netCoreMappingsDictionary.TryGetValue(@this, out var value))
             {
                 return value;
             }

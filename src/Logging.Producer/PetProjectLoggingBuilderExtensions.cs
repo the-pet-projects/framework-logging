@@ -21,6 +21,7 @@
                 .CreateLogger();
 
             builder.AddSerilog(logger, dispose);
+            builder.SetMinimumLevel(minLevel.MapToNetCoreLogLevel());
 
             return builder;
         }
