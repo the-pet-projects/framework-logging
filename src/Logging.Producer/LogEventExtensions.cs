@@ -35,6 +35,16 @@
                 { LogEventLevel.Debug, NetCoreLogLevel.Debug }
             };
         }
+        
+        public static NetCoreLogLevel MapToNetCoreLogLevel(this LogEventLevel @this)
+        {
+            if (LogEventExtensions.netCoreMappingsDictionary.TryGetValue(@this, out var value))
+            {
+                return value;
+            }
+
+            throw new ArgumentException("LogEventLevel not supported");
+        }
 
         public static LogEventV1 BuildLogEventV1(this LogEvent @this, string type, string batchId, string instanceId)
         {
@@ -55,17 +65,6 @@
         private static LogLevel MapToLogLevel(this LogEventLevel @this)
         {
             if (LogEventExtensions.mappingsDictionary.TryGetValue(@this, out var value))
-            {
-                return value;
-            }
-
-            throw new ArgumentException("LogEventLevel not supported");
-        }
-
-
-        public static NetCoreLogLevel MapToNetCoreLogLevel(this LogEventLevel @this)
-        {
-            if (LogEventExtensions.netCoreMappingsDictionary.TryGetValue(@this, out var value))
             {
                 return value;
             }

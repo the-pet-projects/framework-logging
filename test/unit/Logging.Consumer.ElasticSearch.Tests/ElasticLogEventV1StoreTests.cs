@@ -13,18 +13,12 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
     public class ElasticLogEventV1StoreTests
     {
         private ElasticLogEventV1Store target;
-        private ElasticStoreConfiguration storeConfig;
         private Mock<IElasticLowLevelClient> clientMock;
         private PostData<object> callBack = null;
 
         [TestInitialize]
         public void Init()
         {
-            this.storeConfig = new ElasticStoreConfiguration
-            {
-                AppLogsIndex = "appLogIndex"
-            };
-
             this.clientMock = new Mock<IElasticLowLevelClient>();
             this.clientMock
                 .Setup(cl => cl.Bulk<VoidResponse>(It.IsAny<PostData<object>>(), It.IsAny<Func<BulkRequestParameters, BulkRequestParameters>>()))
@@ -33,7 +27,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
                 {
                     this.callBack = c1;
                 });
-            this.target = new ElasticLogEventV1Store(this.clientMock.Object, this.storeConfig);
+            this.target = new ElasticLogEventV1Store(this.clientMock.Object);
         }
 
         [TestMethod]
@@ -43,7 +37,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
             var dt = DateTimeOffset.UtcNow;
 
             // Act
-            this.target.Store(new List<LogEventV1> { new LogEventV1 { Type = "typ123", BatchId = "123", Timestamp = dt, Level = LogLevel.Error } });
+            this.target.Store("appLogIndex", new List<LogEventV1> { new LogEventV1 { Type = "typ123", BatchId = "123", Timestamp = dt, Level = LogLevel.Error } });
 
             // Assert
             Assert.IsNotNull(this.callBack);

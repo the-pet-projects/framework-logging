@@ -21,15 +21,17 @@
         private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
         private readonly object lockObj = new object();
         private readonly IPetProjectLogConsumerLogger logger;
+        private readonly string index;
         private Consumer<Null, List<LogEventV1>> consumer;
 
         private Task task;
 
-        public PetProjectLogConsumer(KafkaConfiguration kafkaConfig, ILogEventV1Store store, IPetProjectLogConsumerLogger logger)
+        public PetProjectLogConsumer(KafkaConfiguration kafkaConfig, string index, ILogEventV1Store store, IPetProjectLogConsumerLogger logger)
         {
             this.store = store;
             this.kafkaConfig = kafkaConfig;
             this.logger = logger;
+            this.index = index;
         }
 
         public Task StartInBackgroundAsync()
@@ -121,7 +123,7 @@
         {
             try
             {
-                this.store.Store(messages);
+                this.store.Store(this.index, messages);
             }
             catch (Exception ex)
             {
