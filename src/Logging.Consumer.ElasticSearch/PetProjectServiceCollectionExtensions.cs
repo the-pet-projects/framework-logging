@@ -17,7 +17,7 @@
             collection.TryAddSingleton<ElasticClientConfiguration>(clientConfig);
 
             var topics = kafkaConfig.Topic.Split(',');
-            var indices = topics.Select(topic => $"logs-{ topic }-{ DateTime.UtcNow.ToString("dd-MM-yyyy") }").ToArray();
+            var indices = topics.Select(topic => $"logs-{ topic.ToLowerInvariant() }-{ DateTime.UtcNow.ToString("dd-MM-yyyy") }").ToArray();
 
             collection.TryAddTransient<IElasticLowLevelClientFactory, ElasticLowLevelClientFactory>();
             collection.TryAddSingleton<IElasticLowLevelClient>(serviceProvider => serviceProvider.GetRequiredService<IElasticLowLevelClientFactory>().BuildAsync(serviceProvider.GetRequiredService<ElasticClientConfiguration>(), indices).Result);
