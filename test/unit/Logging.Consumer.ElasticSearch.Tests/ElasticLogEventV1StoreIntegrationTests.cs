@@ -23,6 +23,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
             this.target = new ElasticLowLevelClientFactory();
         }
         
+        [Ignore]
         [TestMethod]
         public async Task BuildClient_IndexDoesNotExist_CreatesIndex()
         {
@@ -38,7 +39,8 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
             var getIndexResult = await client.IndicesGetAsync<byte[]>(this.index).ConfigureAwait(false);
             Assert.IsTrue(getIndexResult.Success);
         }
-        
+
+        [Ignore]
         [TestMethod]
         public async Task BuildClient_IndexDoesNotExist_CreatesIndexWithTimestampMapping()
         {
