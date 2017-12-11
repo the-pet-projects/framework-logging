@@ -31,6 +31,9 @@
 
             for (var i = 0; i < topics.Length; i++)
             {
+                var topic = topics[i];
+                var index = indices[i];
+
                 // this will make the provider own the consumer instance, i.e., the consumer will be disposed automatically by the DI container
                 // if we added the singleton like this: collection.AddSingleton(new PetProjectLogConsumer()); then it wouldn't be disposed
                 // automatically because the DI didn't actually create the instance so it doesn't own it
@@ -38,8 +41,8 @@
                     new PetProjectLogConsumer(
                         kafkaConfig.Brokers,
                         kafkaConfig.ConsumerGroupId,
-                        topics[i],
-                        new ElasticLogEventV1Store(sp.GetRequiredService<IElasticLowLevelClient>(), indices[i]),
+                        topic,
+                        new ElasticLogEventV1Store(sp.GetRequiredService<IElasticLowLevelClient>(), index),
                         sp.GetRequiredService<IPetProjectLogConsumerLogger>()));
             }
         }
