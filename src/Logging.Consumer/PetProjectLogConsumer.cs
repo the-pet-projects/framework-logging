@@ -17,21 +17,23 @@
         private static readonly TimeSpan PollTimeout = TimeSpan.FromSeconds(2);
 
         private readonly ILogEventV1Store store;
-        private readonly KafkaConfiguration kafkaConfig;
+        private readonly IEnumerable<string> brokers;
+        private readonly string consumerGroupId;
+        private readonly string topic;
         private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
         private readonly object lockObj = new object();
         private readonly IPetProjectLogConsumerLogger logger;
-        private readonly string index;
         private Consumer<Null, List<LogEventV1>> consumer;
 
         private Task task;
 
-        public PetProjectLogConsumer(KafkaConfiguration kafkaConfig, string index, ILogEventV1Store store, IPetProjectLogConsumerLogger logger)
+        public PetProjectLogConsumer(IEnumerable<string> brokers, string consumerGroupId, string topic, ILogEventV1Store store, IPetProjectLogConsumerLogger logger)
         {
             this.store = store;
-            this.kafkaConfig = kafkaConfig;
+            this.brokers = brokers;
+            this.consumerGroupId = consumerGroupId;
+            this.topic = topic;
             this.logger = logger;
-            this.index = index;
         }
 
         public Task StartInBackgroundAsync()
@@ -53,13 +55,13 @@
                         {
                             var config = new Dictionary<string, object>
                             {
-                                { "group.id", this.kafkaConfig.ConsumerGroupId },
-                                { "bootstrap.servers", string.Join(",", this.kafkaConfig.Brokers) },
+                                { "group.id", this.consumerGroupId },
+                                { "bootstrap.servers", string.Join(",", this.brokers) },
                                 { "client.id", $"{ ClientIdPrefix }-{ Guid.NewGuid() }" }
                             };
 
                             this.consumer = new Consumer<Null, List<LogEventV1>>(config, null, new JsonDeserializer<List<LogEventV1>>());
-                            this.consumer.Subscribe(this.kafkaConfig.Topic);
+                            this.consumer.Subscribe(this.topic);
                             this.consumer.OnMessage += this.HandleMessage;
                             this.consumer.OnConsumeError += this.HandleConsumeError;
                             this.consumer.OnError += this.HandleError;
@@ -123,7 +125,7 @@
         {
             try
             {
-                this.store.Store(this.index, messages);
+                this.store.Store(messages);
             }
             catch (Exception ex)
             {

@@ -27,7 +27,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
                 {
                     this.callBack = c1;
                 });
-            this.target = new ElasticLogEventV1Store(this.clientMock.Object);
+            this.target = new ElasticLogEventV1Store(this.clientMock.Object, "appLogIndex");
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace PetProjects.Framework.Logging.Consumer.ElasticSearch.Tests
             var dt = DateTimeOffset.UtcNow;
 
             // Act
-            this.target.Store("appLogIndex", new List<LogEventV1> { new LogEventV1 { Type = "typ123", BatchId = "123", Timestamp = dt, Level = LogLevel.Error } });
+            this.target.Store(new List<LogEventV1> { new LogEventV1 { Type = "typ123", BatchId = "123", Timestamp = dt, Level = LogLevel.Error } });
 
             // Assert
             Assert.IsNotNull(this.callBack);

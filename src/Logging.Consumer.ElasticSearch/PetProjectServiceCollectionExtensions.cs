@@ -14,13 +14,13 @@
     {
         public static void AddPetProjectElasticLogConsumer(this IServiceCollection collection, KafkaConfiguration kafkaConfig, ElasticClientConfiguration clientConfig)
         {
-            collection.TryAddSingleton<KafkaConfiguration>(kafkaConfig);
             collection.TryAddSingleton<ElasticClientConfiguration>(clientConfig);
-            collection.TryAddSingleton<ElasticStoreConfiguration>(clientConfig);
+
+            var topics = kafkaConfig.Topic.Split(',');
+            var indices = topics.Select(topic => $"logs-{ topic }-{ DateTime.UtcNow.ToString("dd-MM-yyyy") }").ToArray();
 
             collection.TryAddTransient<IElasticLowLevelClientFactory, ElasticLowLevelClientFactory>();
-            collection.TryAddSingleton<IElasticLowLevelClient>(serviceProvider => serviceProvider.GetRequiredService<IElasticLowLevelClientFactory>().BuildAsync(serviceProvider.GetRequiredService<ElasticClientConfiguration>()).Result);
-            collection.TryAddTransient<ILogEventV1Store, ElasticLogEventV1Store>();
+            collection.TryAddSingleton<IElasticLowLevelClient>(serviceProvider => serviceProvider.GetRequiredService<IElasticLowLevelClientFactory>().BuildAsync(serviceProvider.GetRequiredService<ElasticClientConfiguration>(), indices).Result);
 
             collection.AddLogging(cfg => cfg.AddConsole());
             collection.TryAddSingleton<IPetProjectLogConsumerLogger>(sp =>
@@ -29,16 +29,17 @@
                 return new PetProjectLogConsumerLogger(providers.First(provider => provider is ConsoleLoggerProvider));
             });
 
-            foreach (var index in clientConfig.AppLogsIndex.Split(','))
+            for (var i = 0; i < topics.Length; i++)
             {
                 // this will make the provider own the consumer instance, i.e., the consumer will be disposed automatically by the DI container
                 // if we added the singleton like this: collection.AddSingleton(new PetProjectLogConsumer()); then it wouldn't be disposed
                 // automatically because the DI didn't actually create the instance so it doesn't own it
                 collection.AddSingleton<PetProjectLogConsumer>(sp =>
                     new PetProjectLogConsumer(
-                        sp.GetRequiredService<KafkaConfiguration>(),
-                        index,
-                        sp.GetRequiredService<ILogEventV1Store>(),
+                        kafkaConfig.Brokers,
+                        kafkaConfig.ConsumerGroupId,
+                        topics[i],
+                        new ElasticLogEventV1Store(sp.GetRequiredService<IElasticLowLevelClient>(), indices[i]),
                         sp.GetRequiredService<IPetProjectLogConsumerLogger>()));
             }
         }

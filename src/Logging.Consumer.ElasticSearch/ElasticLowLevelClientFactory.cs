@@ -1,42 +1,53 @@
 ﻿namespace PetProjects.Framework.Logging.Consumer.ElasticSearch
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Elasticsearch.Net;
 
     public class ElasticLowLevelClientFactory : IElasticLowLevelClientFactory
     {
-        public async Task<IElasticLowLevelClient> BuildAsync(ElasticClientConfiguration config)
+        public async Task<IElasticLowLevelClient> BuildAsync(ElasticClientConfiguration config, IEnumerable<string> indices)
         {
             var settings = new ConnectionConfiguration(new Uri(config.Address));
             var client = new ElasticLowLevelClient(settings);
-            var indexExists = await client.IndicesExistsAsync<string>(config.AppLogsIndex).ConfigureAwait(false);
+            var errors = new List<Exception>();
 
-            if (indexExists.HttpStatusCode == null || indexExists.HttpStatusCode.Value == 404)
+            foreach (var index in indices)
             {
-                var postData = new
+                var indexExists = await client.IndicesExistsAsync<string>(index).ConfigureAwait(false);
+
+                if (indexExists.HttpStatusCode == null || indexExists.HttpStatusCode.Value == 404)
                 {
-                    mappings = new
+                    var postData = new
                     {
-                        _default_ = new
+                        mappings = new
                         {
-                            properties = new
+                            _default_ = new
                             {
-                                Timestamp = new
+                                properties = new
                                 {
-                                    type = "date"
+                                    Timestamp = new
+                                    {
+                                        type = "date"
+                                    }
                                 }
                             }
                         }
+                    };
+
+                    var response = await client.IndicesCreateAsync<VoidResponse>(index, postData).ConfigureAwait(false);
+
+                    if (!response.Success)
+                    {
+                        errors.Add(new ElasticException(response));
                     }
-                };
-
-                var response = await client.IndicesCreateAsync<VoidResponse>(config.AppLogsIndex, postData).ConfigureAwait(false);
-
-                if (!response.Success)
-                {
-                    throw new ElasticException(response);
                 }
+            }
+
+            if (errors.Count > 0)
+            {
+                throw new AggregateException(errors);
             }
 
             return client;

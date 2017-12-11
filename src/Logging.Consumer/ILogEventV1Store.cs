@@ -5,6 +5,6 @@
 
     public interface ILogEventV1Store
     {
-        void Store(string index, List<LogEventV1> logs);
+        void Store(List<LogEventV1> logs);
     }
 }

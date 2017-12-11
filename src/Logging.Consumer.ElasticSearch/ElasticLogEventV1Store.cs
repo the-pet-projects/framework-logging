@@ -7,19 +7,21 @@
     public class ElasticLogEventV1Store : ILogEventV1Store
     {
         private readonly IElasticLowLevelClient client;
+        private readonly string index;
 
-        public ElasticLogEventV1Store(IElasticLowLevelClient client)
+        public ElasticLogEventV1Store(IElasticLowLevelClient client, string index)
         {
             this.client = client;
+            this.index = index;
         }
 
-        public void Store(string index, List<LogEventV1> logs)
+        public void Store(List<LogEventV1> logs)
         {
             var logList = new List<object>();
 
             foreach (var log in logs)
             {
-                logList.Add(new { index = new { _index = index, _type = log.Type } });
+                logList.Add(new { index = new { _index = this.index, _type = log.Type } });
                 var doc = new
                 {
                     Timestamp = log.Timestamp.ToString("o"),
