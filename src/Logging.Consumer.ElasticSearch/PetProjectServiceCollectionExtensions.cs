@@ -50,7 +50,9 @@
         public static IEnumerable<Task> StartPetProjectElasticLogConsumerAsync(this IServiceProvider provider)
         {
             var consumers = provider.GetServices<PetProjectLogConsumer>();
-            return consumers.Select(c => c.StartInBackgroundAsync());
+
+            // ToList is important otherwise enumerable is not iterated through and tasks are not started
+            return consumers.Select(c => c.StartInBackgroundAsync()).ToList();
         }
     }
 }
